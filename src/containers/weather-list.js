@@ -1,7 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import shortid from 'shortid';
 
 class WeatherList extends Component {
+  renderWeather(cityData) {
+    const name = cityData.city.name;
+    const id = shortid.generate();
+
+    return (
+      /* add a key to the top-level element in a React list */
+      <tr key={id}>
+        <td>{name}</td>
+      </tr>
+    );
+  }
+
   render() {
     return (
       <table className="table table-hover">
@@ -14,7 +27,9 @@ class WeatherList extends Component {
           </tr>
         </thead>
         <tbody>
-
+          {/* this.props.weather is available b/c we've mapped the application's state to our
+          component's props */}
+          {this.props.weather.map(this.renderWeather)}
         </tbody>
       </table>
     );
