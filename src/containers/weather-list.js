@@ -1,16 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
+import { Sparklines, SparklinesLine } from 'react-sparklines';
 
 class WeatherList extends Component {
+  // renderWeather function is to render a single city, single row:
   renderWeather(cityData) {
-    const name = cityData.city.name;
     const id = shortid.generate();
+    const name = cityData.city.name;
+
+    /*
+    We need to get the numeric value of a city's temp. The object we get back from OWM (our
+    cityData object) looks something like this:
+
+    {
+      city: {name: 'San Francisco'},
+      list: [
+        {main: {temp: 260, humidity: 40, pressure: 55} },
+        {main: {temp: 270, humidity: 50, pressure: 65} }
+      ]
+    }
+
+    so we can get the temperatures with a map function that looks into this particular property:
+    */
+    const temps = cityData.list.map(weather => weather.main.temp);
 
     return (
       /* add a key to the top-level element in a React list */
       <tr key={id}>
         <td>{name}</td>
+        <td>
+          <Sparklines height={100} width={180} data={temps}>
+            <SparklinesLine color="#003459" />
+          </Sparklines>
+        </td>
       </tr>
     );
   }
