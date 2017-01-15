@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
-import { Sparklines, SparklinesLine } from 'react-sparklines';
+import _ from 'lodash';
+
+import Chart from '../components/chart';
 
 class WeatherList extends Component {
   // renderWeather function is to render a single city, single row:
   renderWeather(cityData) {
     const id = shortid.generate();
     const name = cityData.city.name;
-
     /*
     We need to get the numeric value of a city's temp. The object we get back from OWM (our
     cityData object) looks something like this:
@@ -21,19 +22,23 @@ class WeatherList extends Component {
       ]
     }
 
-    so we can get the temperatures with a map function that looks into this particular property:
+    so we can get the temperatures with a map function that looks into this particular property
+    (same with pressure & humidity):
+
+    We map over the returned array from cityData.list.map() to convert it from K to F
     */
-    const temps = cityData.list.map(weather => weather.main.temp);
+    const temps = _.map(cityData.list.map(weather => weather.main.temp),
+      (temp) => temp = Math.round( temp * (9 / 5) - 459.67) );
+    const pressures = cityData.list.map(weather => weather.main.pressure);
+    const humidities = cityData.list.map(weather => weather.main.humidity);
 
     return (
       /* add a key to the top-level element in a React list */
       <tr key={id}>
         <td>{name}</td>
-        <td>
-          <Sparklines height={100} width={180} data={temps}>
-            <SparklinesLine color="#003459" />
-          </Sparklines>
-        </td>
+        <td><Chart data={temps} color="#003459" units="°F" /></td>
+        <td><Chart data={pressures} color="#3185FC" units="hPa" /></td>
+        <td><Chart data={humidities} color="#BA5C12" units="%" /></td>
       </tr>
     );
   }
@@ -44,9 +49,9 @@ class WeatherList extends Component {
         <thead>
           <tr>
             <th>City</th>
-            <th>Temperature</th>
-            <th>Pressure</th>
-            <th>Humidity</th>
+            <th>Temperature (°F)</th>
+            <th>Pressure (hPa)</th>
+            <th>Humidity (%)</th>
           </tr>
         </thead>
         <tbody>
