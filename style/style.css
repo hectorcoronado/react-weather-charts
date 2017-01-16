@@ -7,7 +7,6 @@ td, th {
   text-align: center !important;
 }
 
-/* This rule applies to our GoogleMaps */
 td:first-of-type {
   height: 200px;
   width: 250px;
