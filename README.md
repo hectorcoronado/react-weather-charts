@@ -8,3 +8,11 @@
 	sometimes minutely, the purpose of (e.g.) a line or block of code.
 
 **A more readable codebase can be found in the "clean" branch of this repo.**
+
+## Some React (& otherwise) concepts that can be gleaned from this app are:
+
+* Redux
+* Asynchronous calls (AJAX calls via Axios & ReduxPromise)
+* Integration of GoogleMaps
+
+This app follows the code from [this](https://www.udemy.com/react-redux/learn/v4/content) Udemy course by @StephenGrider.
