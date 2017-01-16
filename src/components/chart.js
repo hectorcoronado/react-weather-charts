@@ -9,8 +9,9 @@ function avarage(data) {
 export default (props) => {
   return (
     <div>
-      <Sparklines height={100} width={180} data={props.data}>
-        <SparklinesLine color={props.color} />
+      <Sparklines height={130} width={180} data={props.data}>
+        {/* style "prop" isn't really one; it's an attribute from Sparklines */}
+        <SparklinesLine style={{strokeWidth: 3}} color={props.color} />
         <SparklinesReferenceLine type="avg" />
       </Sparklines>
       <div>

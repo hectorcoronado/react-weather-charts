@@ -4,6 +4,7 @@ import shortid from 'shortid';
 import _ from 'lodash';
 
 import Chart from '../components/chart';
+import GoogleMap from '../components/google-map';
 
 class WeatherList extends Component {
   // renderWeather function is to render a single city, single row:
@@ -31,14 +32,15 @@ class WeatherList extends Component {
       (temp) => temp = Math.round( temp * (9 / 5) - 459.67) );
     const pressures = cityData.list.map(weather => weather.main.pressure);
     const humidities = cityData.list.map(weather => weather.main.humidity);
+    const { lon, lat } = cityData.city.coord;
 
     return (
       /* add a key to the top-level element in a React list */
       <tr key={id}>
-        <td>{name}</td>
-        <td><Chart data={temps} color="#003459" units="°F" /></td>
-        <td><Chart data={pressures} color="#3185FC" units="hPa" /></td>
-        <td><Chart data={humidities} color="#BA5C12" units="%" /></td>
+        <td><GoogleMap lon={lon} lat={lat} /></td>
+        <td><Chart data={temps} color="#FF101F" units="°F" /></td>
+        <td><Chart data={pressures} color="#2B9720" units="hPa" /></td>
+        <td><Chart data={humidities} color="#2C497F" units="%" /></td>
       </tr>
     );
   }
